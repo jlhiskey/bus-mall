@@ -51,10 +51,12 @@ var productVotes = {
     //unique items
     if (productVotes.leftWindow === productVotes.middleWindow || productVotes.leftWindow === productVotes.rightWindow || productVotes.middleWindow === productVotes.rightWindow) {
       productVotes.displayProducts();
+      console.log('duplicate');
     }
     //unique compared to previous round
     if (previousProducts.includes(productVotes.leftWindow.name) || previousProducts.includes(productVotes.middleWindow.name) || previousProducts.includes(productVotes.rightWindow.name)) {
       productVotes.displayProducts();
+      console.log('previous duplicate');
     }
     //Everytime somthing is viewed keep track
     productVotes.leftWindow.views += 1;
