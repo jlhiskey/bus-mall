@@ -5,6 +5,8 @@ var totalProducts = [];
 // File name of Products
 var productFileName = ['bag.jpg','banana.jpg', 'bathroom.jpg', 'boots.jpg', 'breakfast.jpg', 'bubblegum.jpg', 'chair.jpg', 'cthulhu.jpg', 'dog-duck.jpg', 'dragon.jpg', 'pen.jpg', 'pet-sweep.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'tauntaun.jpg', 'unicorn.jpg', 'usb.gif', 'water-can.jpg', 'wine-glass.jpg'];
 var previousProducts = [undefined, undefined, undefined];
+var productName = [];
+var productTotalVotes = [];
 //----------Product Constructor That will give an object their name as well as what type of file they are-------------------------------
 //I think it will also need to log how many times the product has been looked at so that it doesnt repeat and also keep track of votes for results in the end.
 function Product(name, path) {
@@ -13,7 +15,43 @@ function Product(name, path) {
   this.votes = 0;
   this.views = 0;
   totalProducts.push(this);
+  productName.push(name.split('.')[0]);
 }
+
+//----------Chart Stuff------------------------------------------------------------------------------------------------
+function displayChart() {
+  var imgBackgroundColors = [];
+  var ctx = document.getElementById('myChart').getContext('2d');
+  for (var i in totalProducts) {
+    productTotalVotes.push(totalProducts[i].votes);
+    var tmpColor = `rgba(${Math.floor(Math.random() * Math.floor(255))}, ${Math.floor(Math.random() * Math.floor(255))}, ${Math.floor(Math.random() * Math.floor(255))}, 1)`;
+    imgBackgroundColors.push(tmpColor);
+  }
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productName ,
+      datasets: [{
+        label: '# of Votes',
+        data: productTotalVotes ,
+        backgroundColor: imgBackgroundColors,
+        borderColor: imgBackgroundColors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+
+}
+
 //----------Run the Product Constructor------------------------------------------------------------------
 function runProduct() {
   for (var i = 0; i < productFileName.length; i++) {
@@ -21,7 +59,6 @@ function runProduct() {
   }
 }
 runProduct();
-
 console.log ('Constructor', runProduct);
 //----------Voting Machine---------------------------------------------------------------------------------------------------------------------------------
 // Logs clicks and populates left, center, and right products onto screen-
@@ -95,6 +132,7 @@ var productVotes = {
       str = str.charAt(0).toUpperCase() + str.slice(1);
       liElOne.textContent = (str);
       ulEl.appendChild(liElOne);
+
     }
     var liElTwo = document.createElement('li');
     liElTwo.textContent = 'Total User Clicks: ' + productVotes.totalVotes;
@@ -108,6 +146,7 @@ var productVotes = {
       productVotes.resetButton.hidden = false;
       productVotes.resultsButton.hidden = true;
       productVotes.displayResults();
+      displayChart();
 
       productVotes.resetButton.addEventListener('click', function() {
         productVotes.resetButton.hidden = true;
