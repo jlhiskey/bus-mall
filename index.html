@@ -6,12 +6,20 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <header></header>
-    <!-- Something that Shows the Pictures -->
-      <!-- Left Picture -->
-      <!-- Center Picture -->
-      <!-- Right Picture -->
-    <!-- Something that is hidden until the user finished voting and then shows the voting results -->
+    <header class='container'>
+      <p>Please Select the Product That You Find Interesting</p>
+    </header>
+    <section id='allWindows' class='container'>
+      <img src="" alt="" id='leftWindow' class='four columns'>
+      <img src="" alt="" id='centerWindow' class='four columns'>
+      <img src="" alt="" id='rightWindow' class='four columns'>
+    </section>
+    <section class='container'>
+      <button type="button" name="button" id='showVotingResults' hidden>Show Voting Results</button>
+      <button type='button' name='reset' id='reset' hidden>Reset</button>
+      <section id='votingResults'>
+      </section>
+    </section>
     <script type="text/javascript" src='js/app.js'></script>
   </body>
 </html>
