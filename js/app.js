@@ -4,10 +4,11 @@
 var totalProducts = [];
 // File name of Products
 var productFileName = ['bag.jpg','banana.jpg', 'bathroom.jpg', 'boots.jpg', 'breakfast.jpg', 'bubblegum.jpg', 'chair.jpg', 'cthulhu.jpg', 'dog-duck.jpg', 'dragon.jpg', 'pen.jpg', 'pet-sweep.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'tauntaun.jpg', 'unicorn.jpg', 'usb.gif', 'water-can.jpg', 'wine-glass.jpg'];
+var previousProducts = [undefined, undefined, undefined];
 //----------Product Constructor That will give an object their name as well as what type of file they are-------------------------------
 //I think it will also need to log how many times the product has been looked at so that it doesnt repeat and also keep track of votes for results in the end.
 function Product(name, path) {
-  this.name = name;
+  this.name = name.split('.')[0];
   this.path = path;
   this.votes = 0;
   this.views = 0;
@@ -39,14 +40,20 @@ var productVotes = {
   resetButton: document.getElementById('reset'),
   //Calls up random products to display
   getRandomProduct: function() {
+
     return Math.floor(Math.random() * productFileName.length);
   },
   displayProducts: function() {
     productVotes.leftWindow = totalProducts[productVotes.getRandomProduct()];
     productVotes.middleWindow = totalProducts[productVotes.getRandomProduct()];
     productVotes.rightWindow = totalProducts[productVotes.getRandomProduct()];
-    //Needs to make sure that all three objects displayed are unique items that have the least amount of views
+    //Needs to make sure that all three objects displayed are unique items and not from previous round
+    //unique items
     if (productVotes.leftWindow === productVotes.middleWindow || productVotes.leftWindow === productVotes.rightWindow || productVotes.middleWindow === productVotes.rightWindow) {
+      productVotes.displayProducts();
+    }
+    //unique compared to previous round
+    if (previousProducts.includes(productVotes.leftWindow.name) || previousProducts.includes(productVotes.middleWindow.name) || previousProducts.includes(productVotes.rightWindow.name)) {
       productVotes.displayProducts();
     }
     //Everytime somthing is viewed keep track
@@ -57,12 +64,15 @@ var productVotes = {
     // Left
     productVotes.leftWindowEl.src = productVotes.leftWindow.path;
     productVotes.leftWindowEl.id = productVotes.leftWindow.name;
+    previousProducts[0] = productVotes.leftWindow.name;
     // Center
     productVotes.middleWindowEl.src = productVotes.middleWindow.path;
     productVotes.middleWindowEl.id = productVotes.middleWindow.name;
+    previousProducts[1] = productVotes.middleWindow.name;
     // Right
     productVotes.rightWindowEl.src = productVotes.rightWindow.path;
     productVotes.rightWindowEl.id = productVotes.rightWindow.name;
+    previousProducts[2] = productVotes.rightWindow.name;
   },
   //Everytime something is clicked keep track
   //Also needs to keep track of overall clicks so that voting ends at 25 clicks
