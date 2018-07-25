@@ -1,5 +1,6 @@
 @import url('reset.css');
-/* @import url('layout.css'); */
+@import url('layout.css');
+
 
 p {
    text-align: center;
@@ -8,6 +9,17 @@ p {
 
 img {
   box-shadow: .5em .5em .5em .5em;
+  opacity: 1;
+  display: block;
+  width: 500px;
+  height: auto;
+  transition: .5s ease;
+  /* backface-visibility: hidden; */
+  border-radius: 12px;
+}
+
+img:hover {
+  opacity: .3;
 }
 
 section ul {
@@ -17,12 +29,14 @@ section ul {
   column-count: 3;
 }
 
-#images {
+#allWindows {
   margin-bottom: 1em;
+  
+  
 }
 
 body {
-  background-color: lightblue;
+  background-color: rgb(57, 119, 44);
 }
 
 @media (min-width: 1000px) {
