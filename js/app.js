@@ -1,6 +1,5 @@
 'use strict';
 //----------Global Variables---------------------------------------------------------------------------------------------------------------
-var data;
 // Total Products in existence
 var totalProducts = [];
 // File name of Products
@@ -15,17 +14,17 @@ function Product(name, path) {
   this.path = path;
   this.votes = 0;
   this.views = 0;
-  data.datasets[0].data.push(0);
   totalProducts.push(this);
   productName.push(name.split('.')[0]);
 }
+//----------Check for local storage----------------------------------------------------------------------------------
 
-//----------Run the Product Constructor------------------------------------------------------------------
-function runProduct() {
-  for (var i = 0; i < productFileName.length; i++) {
-    new Product(productFileName[i], 'img/' + productFileName[i]);
-  }
+if(localStorage.data) {
+  totalProducts = JSON.parse(localStorage.data);
+} else {
+  totalProducts = [];
 }
+
 
 //----------Chart Stuff------------------------------------------------------------------------------------------------
 function displayChart() {
@@ -49,33 +48,26 @@ function displayChart() {
       }]
     },
     options: {
-      responsive: false,
-      animation: {
-        duration: 1000,
-        easing: 'easeOutBounce'
-      },
       scales: {
         yAxes: [{
           ticks: {
-            autoSkip: false,
-            beginAtZero:true
-          }
-        }],
-        xAxes: [{
-          ticks: {
-            autoSkip: false,
             beginAtZero:true
           }
         }]
       }
     }
-    runProduct();
-    console.log ('Constructor', runProduct);
   });
 
 }
 
-
+//----------Run the Product Constructor------------------------------------------------------------------
+function runProduct() {
+  for (var i = 0; i < productFileName.length; i++) {
+    new Product(productFileName[i], 'img/' + productFileName[i]);
+  }
+}
+runProduct();
+console.log ('Constructor', runProduct);
 //----------Voting Machine---------------------------------------------------------------------------------------------------------------------------------
 // Logs clicks and populates left, center, and right products onto screen-
 var productVotes = {
@@ -136,7 +128,7 @@ var productVotes = {
       if (totalProducts[i].name === elId) {
         totalProducts[i].votes += 1;
         this.totalVotes += 1;
-        data.datasets[0].data[i] = totalProducts[i].votes;
+        localStorage.setItem('data', JSON.stringify(totalProducts));
       }
     }
   },
@@ -183,7 +175,6 @@ var productVotes = {
       if (productVotes.totalVotes % 25 === 0) {
         productVotes.allWindowsEl.removeEventListener('click', productVotes.onClick);
         productVotes.showButton();
-
       }
       productVotes.displayProducts();
     } else {
