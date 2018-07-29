@@ -1,0 +1,46 @@
+@import url('reset.css');
+@import url('layout.css');
+
+
+p {
+   text-align: center;
+   font-size: 2em;
+}
+
+img {
+  box-shadow: .5em .5em .5em .5em;
+  opacity: 1;
+  display: block;
+  width: 500px;
+  height: auto;
+  transition: .5s ease;
+  /* backface-visibility: hidden; */
+  border-radius: 12px;
+}
+
+img:hover {
+  opacity: .3;
+}
+
+section ul {
+  max-height: 300px;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+}
+
+#allWindows {
+  margin-bottom: 1em;
+  
+  
+}
+
+body {
+  background-color: rgb(57, 119, 44);
+}
+
+@media (min-width: 1000px) {
+  body {
+    background-color: lightgrey;
+  }
+}
